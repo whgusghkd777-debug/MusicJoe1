@@ -1,24 +1,25 @@
 package com.mysite.sbb.music.dto;
 
-import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
+@Setter
 public class MusicListDto {
     private Integer id;
     private String title;
     private String artist;
     private String thumbnailUrl;
     private LocalDateTime createDate;
+    private Integer voteCount; // 추천수를 저장할 칸 추가
 
-    // MusicService에서 사용하기 위해 이 생성자가 반드시 필요합니다!
-    public MusicListDto(Integer id, String title, String artist, String thumbnailUrl, LocalDateTime createDate) {
+    public MusicListDto(Integer id, String title, String artist, String thumbnailUrl, LocalDateTime createDate, Integer voteCount) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.thumbnailUrl = thumbnailUrl;
         this.createDate = createDate;
+        this.voteCount = (voteCount == null) ? 0 : voteCount; // null이면 0으로 설정
     }
 }

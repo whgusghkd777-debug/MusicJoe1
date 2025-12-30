@@ -17,7 +17,6 @@ public class MusicService {
     private final MusicRepository musicRepository;
 
     public List<MusicListDto> getList() {
-        // DB에서 음악을 가져와서 화면용 데이터(Dto)로 변환합니다.
         List<Music> musicList = this.musicRepository.findAllByOrderByCreateDateDesc();
         return musicList.stream()
                 .map(music -> new MusicListDto(
@@ -25,11 +24,11 @@ public class MusicService {
                     music.getTitle(), 
                     music.getArtist(), 
                     music.getThumbnailUrl(), 
-                    music.getCreateDate()))
+                    music.getCreateDate(),
+                    music.getVoter() != null ? music.getVoter().size() : 0)) // 추천수 계산해서 전달
                 .collect(Collectors.toList());
     }
 
-    // ★ 컨트롤러와 약속한 대로 인자를 정확히 5개만 받습니다.
     public void create(String title, String artist, String url, String content, SiteUser author) {
         Music m = new Music();
         m.setTitle(title);
@@ -40,8 +39,12 @@ public class MusicService {
         m.setCreateDate(LocalDateTime.now());
         
         if (url != null && url.contains("v=")) {
-            String videoId = url.split("v=")[1].split("&")[0];
-            m.setThumbnailUrl("https://img.youtube.com/vi/" + videoId + "/mqdefault.jpg");
+            try {
+                String videoId = url.split("v=")[1].split("&")[0];
+                m.setThumbnailUrl("https://img.youtube.com/vi/" + videoId + "/mqdefault.jpg");
+            } catch (Exception e) {
+                m.setThumbnailUrl(null);
+            }
         }
         
         this.musicRepository.save(m);
