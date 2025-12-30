@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll() // CSS 허용 추가
                 .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()  // JS 허용 추가
                 .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll() // 이미지 허용 추가
-                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAuthority("ROLE_ADMIN")
                 .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
             
             .csrf((csrf) -> csrf.disable())
@@ -38,7 +38,7 @@ public class SecurityConfig {
         
         return http.build();
     }
-
+    
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

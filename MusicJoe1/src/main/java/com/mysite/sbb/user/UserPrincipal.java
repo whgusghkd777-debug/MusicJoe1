@@ -14,11 +14,11 @@ public class UserPrincipal implements UserDetails {
         this.user = user;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // user.getRole().name() 을 사용하면 더 안전합니다.
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
-    }
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+    // DB의 role이 ADMIN이라면 -> ROLE_ADMIN으로 만들어서 시큐리티에게 전달
+    return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+}
 
     @Override public String getPassword() { return user.getPassword(); }
     @Override public String getUsername() { return user.getUsername(); }
