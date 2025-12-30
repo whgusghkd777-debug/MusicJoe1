@@ -1,11 +1,11 @@
 package com.mysite.sbb.music.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor
 public class MusicListDto {
     private Integer id;
     private String title;
@@ -13,7 +13,7 @@ public class MusicListDto {
     private String thumbnailUrl;
     private LocalDateTime createDate;
 
-    // ★ 이 생성자가 있어야 Service에서 에러가 안 납니다!
+    // MusicService에서 사용하기 위해 이 생성자가 반드시 필요합니다!
     public MusicListDto(Integer id, String title, String artist, String thumbnailUrl, LocalDateTime createDate) {
         this.id = id;
         this.title = title;

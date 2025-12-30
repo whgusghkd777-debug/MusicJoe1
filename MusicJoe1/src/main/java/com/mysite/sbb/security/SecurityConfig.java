@@ -19,8 +19,12 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN") // 관리자 전용
+                .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll() // CSS 허용 추가
+                .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()  // JS 허용 추가
+                .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll() // 이미지 허용 추가
+                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
                 .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+            
             .csrf((csrf) -> csrf.disable())
             .headers((headers) -> headers
                 .frameOptions((frameOptions) -> frameOptions.sameOrigin()))
