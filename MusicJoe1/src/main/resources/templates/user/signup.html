@@ -1,36 +1,40 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>新規登録 - CreatorShare</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
-<div class="signup-card">
-    <h2>新規登録</h2>
-    <form th:action="@{/user/signup}" method="post">
-        <div class="form-group">
-            <label>ユーザー名</label>
-            <input type="text" name="username" required>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<section layout:fragment="content" style="display:flex; justify-content:center; align-items:center; min-height:80vh;">
+    <div style="background: white; padding: 40px; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); width: 100%; max-width: 450px;">
+        <h2 style="font-weight:800; text-align:center; margin-bottom:30px;">新規登録</h2>
+        
+        <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post" style="display:flex; flex-direction:column; gap:15px;">
+            <div th:if="${#fields.hasAnyErrors()}" style="background:#FFE5E5; color:#FF3B30; padding:15px; border-radius:12px; font-size:14px;">
+                <p th:each="err : ${#fields.allErrors()}" th:text="${err}"></p>
+            </div>
+            
+            <div>
+                <label style="font-size:14px; color:#86868B; margin-left:5px; display:block; margin-bottom:5px;">ユーザー名</label>
+                <input type="text" th:field="*{username}" placeholder="사용자 이름" style="width:100%; padding:15px; border-radius:12px; border:1px solid #F2F2F7; background:#F2F2F7; box-sizing:border-box;">
+            </div>
+            
+            <div>
+                <label style="font-size:14px; color:#86868B; margin-left:5px; display:block; margin-bottom:5px;">メールアドレス</label>
+                <input type="email" th:field="*{email}" placeholder="이메일" style="width:100%; padding:15px; border-radius:12px; border:1px solid #F2F2F7; background:#F2F2F7; box-sizing:border-box;">
+            </div>
+            
+            <div>
+                <label style="font-size:14px; color:#86868B; margin-left:5px; display:block; margin-bottom:5px;">パスワード</label>
+                <input type="password" th:field="*{password1}" placeholder="비밀번호" style="width:100%; padding:15px; border-radius:12px; border:1px solid #F2F2F7; background:#F2F2F7; box-sizing:border-box;">
+            </div>
+            
+            <div>
+                <label style="font-size:14px; color:#86868B; margin-left:5px; display:block; margin-bottom:5px;">パスワード（確認）</label>
+                <input type="password" th:field="*{password2}" placeholder="비밀번호 확인" style="width:100%; padding:15px; border-radius:12px; border:1px solid #F2F2F7; background:#F2F2F7; box-sizing:border-box;">
+            </div>
+            
+            <button type="submit" style="width:100%; padding:15px; border-radius:12px; border:none; background:#007AFF; color:white; font-weight:700; margin-top:10px; cursor:pointer;">アカウント作成</button>
+        </form>
+        
+        <div style="margin-top: 20px; text-align: center;">
+            <a th:href="@{/user/login}" style="color: #007AFF; text-decoration: none; font-size: 14px;">既にアカウントをお持ちですか？ ログイン</a>
         </div>
-        <div class="form-group">
-            <label>メールアドレス</label>
-            <input type="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label>パスワード</label>
-            <input type="password" name="password" required>
-        </div>
-        <div class="form-group">
-            <label>パスワード(確認)</label>
-            <input type="password" name="passwordConfirm" required>
-        </div>
-        <div th:if="${error}" class="error-msg" th:text="${error}"></div>
-        <button type="submit">アカウント作成</button>
-    </form>
-    <div class="footer-link">
-        既にアカウントをお持ちですか？ <a th:href="@{/user/login}">ログイン</a>
     </div>
-</div>
-</body>
+</section>
 </html>

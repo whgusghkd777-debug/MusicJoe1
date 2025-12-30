@@ -1,47 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8">
-    <title>音楽投稿</title>
-    <style>
-        body { font-family: sans-serif; margin: 40px; }
-        input, button { padding: 10px; margin: 5px; width: 300px; }
-        button { background: #007bff; color: white; border: none; cursor: pointer; }
-    </style>
-</head>
-<body>
-    
-    <header>
-        <div sec:authorize="isAuthenticated()">
-            <span sec:authentication="name"></span>さん ようこそ!
-            <a th:href="@{/logout}">ログアウト</a>
-            <span sec:authorize="hasRole('ADMIN')">
-                | <a href="/admin">管理者ページ</a>
-            </span>
-        </div>
-        <div sec:authorize="isAnonymous()">
-            <a th:href="@{/user/login}">ログイン</a> | <a th:href="@{/user/signup}">会員登録</a>
-        </div>
-    </header>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<section layout:fragment="content">
+    <div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
+        <h2 style="font-weight: 800; margin-bottom: 30px; text-align: center;">楽曲を共有</h2>
+        
+        <form th:action="@{/music/create}" method="post" enctype="multipart/form-data">
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:600;">タイトル</label>
+                <input type="text" name="title" required style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; outline:none;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:600;">アーティスト</label>
+                <input type="text" name="artist" required style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; outline:none;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:600;">YouTube URL</label>
+                <input type="text" name="url" placeholder="https://..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; outline:none;">
+            </div>
 
-    <h1>音楽を投稿する</h1>
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:600;">音楽ファイル (MP3など)</label>
+                <input type="file" name="file" style="width:100%; padding:10px; border:1px dashed #007AFF; border-radius:12px;">
+            </div>
+            
+            <div style="margin-bottom: 30px;">
+                <label style="display:block; margin-bottom:8px; font-weight:600;">説明</label>
+                <textarea name="content" rows="4" style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; outline:none;"></textarea>
+            </div>
 
-    
-    <form th:action="@{/music/upload}" method="post">
-        <label for="title">タイトル（曲名）:</label><br>
-        <input type="text" id="title" name="title" required placeholder="例: Back In Black"><br><br>
-
-        <label for="artist">アーティスト:</label><br>
-        <input type="text" id="artist" name="artist" required placeholder="例: AC/DC"><br><br>
-
-        <label for="url">YouTube URL:</label><br>
-        <input type="text" id="url" name="url" required placeholder="https://www.youtube.com/watch?v=..."><br><br>
-
-        <button type="submit">投稿する</button>
-    </form>
-
-    <br>
-    <a th:href="@{/music}">← 一覧に戻る</a>
-</body>
+            <div style="display: flex; gap: 12px;">
+                <a th:href="@{/music/list}" style="flex: 1; text-align: center; padding: 16px; border-radius: 12px; background: #F2F2F7; color: #333; text-decoration: none; font-weight: 600;">キャンセル</a>
+                <button type="submit" style="flex: 2; padding: 16px; border-radius: 12px; background: #007AFF; color: white; border: none; font-weight: 700; cursor: pointer;">共有する</button>
+            </div>
+        </form>
+    </div>
+</section>
 </html>

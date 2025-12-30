@@ -2,16 +2,10 @@ package com.mysite.sbb.music;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.user.SiteUser;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,12 +24,11 @@ public class Music {
     private String artist;
 
     @Column(columnDefinition = "TEXT")
-    private String content; // 이 필드가 반드시 있어야 합니다.
+    private String content;
 
-    private String url;
-
+    private String url; // 유튜브 URL
+    private String filePath; // 서버에 저장된 음악 파일 경로 (추가)
     private String category;
-
     private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "music", cascade = CascadeType.REMOVE)
@@ -43,4 +36,8 @@ public class Music {
 
     @ManyToOne
     private SiteUser author;
+    // Music.java 파일 안에 추가
+private String thumbnailUrl;
+    @ManyToMany
+    private Set<SiteUser> voter; // 랭킹 시스템을 위한 추천인 리스트
 }
